@@ -75,10 +75,10 @@ const NavbarTop = () => {
          {/* hover cart */}
          <div className="dropdown dropdown-hover">
           <div tabIndex={0} role="button" className=" m-1 ml-20">
-            <div className="text-gray-800 flex items-center justify-center gap-2 text-3xl">
+            <Link to="/cart" className="text-gray-800 flex items-center justify-center gap-2 text-3xl">
               <MdShoppingCartCheckout />
               <p>{addcourses.length}</p>
-            </div>
+            </Link>
           </div>
           <ul
             tabIndex={0}
