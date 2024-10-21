@@ -50,13 +50,13 @@ const CourseCart = ({ course }) => {
         <div className="mt-4 flex justify-between items-center">
           <div>
             <span className="line-through text-gray-400 text-sm">
-              {course.regular_price}
+              {course.regular_price}, BDT
             </span>
             <span className="text-green-600 text-md font-bold ml-2">
               {discountPercentage.toFixed(2)}%
             </span>
             <span className="text-black text-lg font-bold ml-2">
-            {course.discount_price}
+            {course.discount_price}, BDT
             </span>
           </div>
           {/* <span className="text-green-600 text-sm">Earn Tk 48</span> */}
