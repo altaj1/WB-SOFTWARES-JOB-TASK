@@ -5,7 +5,10 @@ import { OrderContext } from "../../ContextAPIs/OrderProvider";
 import TableRow from "../../TableRow/TableRow";
 
 const Cart = () => {
-    const { addcourses,TotalCoursePrice, setTotalCoursePrice} = useContext(OrderContext);
+    const { addcourses,TotalCoursePrice, setTotalCoursePrice, setAddcourses} = useContext(OrderContext);
+    // useEffect(()=>{
+
+    // },[TotalCoursePrice])
   return (
     <div className="m-mt_16px">
       <h1 className="text-sm text-start md:text-text_xl lg:py-0 font-bold">
@@ -34,7 +37,7 @@ const Cart = () => {
 
               <tbody className="overflow-x-auto ">
 
-                {addcourses.map(course=><TableRow key={course.id} course={course} setTotalCoursePrice={setTotalCoursePrice}></TableRow>)}
+                {addcourses.map(course=><TableRow key={course.id} setAddcourses={setAddcourses} course={course} addcourses={addcourses}  setTotalCoursePrice={setTotalCoursePrice}></TableRow>)}
 
                 
               </tbody>
@@ -51,7 +54,7 @@ const Cart = () => {
               </div>
 
               <Link
-                to={`/cart/checkout`}
+                to={`/checkout`}
                 state={"bdt"}
                 className="font-medium text-black mb-2 border-2 hover:bg-[#D2C5A2] duration-300 py-2 px-4  block text-center mx-auto w-full"
               >

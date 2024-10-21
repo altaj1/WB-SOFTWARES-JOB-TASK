@@ -5,6 +5,7 @@ const OrderProvider = ({children}) => {
     const [examID, setExamID] = useState(null)
     const [addcourses, setAddcourses] = useState([])
     const [TotalCoursePrice, setTotalCoursePrice] = useState(0)
+    const [quantity, setQuantity] = useState(1);
     const [open, setOpen] = useState(true)
     const sidebarRef = useRef(null);
     
@@ -18,7 +19,8 @@ const OrderProvider = ({children}) => {
         addcourses,
         setAddcourses,
         TotalCoursePrice,
-        setTotalCoursePrice
+        setTotalCoursePrice,
+        quantity, setQuantity
     }
     return (
         <OrderContext.Provider value={info} >
