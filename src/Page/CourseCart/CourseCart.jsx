@@ -1,16 +1,22 @@
+import { useContext } from "react";
+import { OrderContext } from "../../ContextAPIs/OrderProvider";
+
 const CourseCart = ({ course }) => {
-  console.log(course);
+    const { addcourses ,setAddcourses} = useContext(OrderContext)
   const [day, month, year, time] = course.created_at.split(/[-\s:]/);
   const formattedDate = `${year}-${month}-${day}T${time}:00Z`;
   const regularPrice = parseInt(course.regular_price);
   const discountPrice = parseInt(course.discount_price);
   const priceDifference = regularPrice - discountPrice;
   const discountPercentage = (priceDifference / regularPrice) * 100;
+  const handleAddTocart = (product)=>{
+    setAddcourses([...addcourses, product])
+  }
   return (
     <div className=" bg-white shadow-lg rounded-lg overflow-hidden">
       <div className="relative">
         <img
-          src="https://itderbd.nextwebservice.com/storage/uploads/course/7674951728743412.jpg"
+          src={course.photo}
           alt=""
         />
         <div className="absolute top-0 left-0 p-2">
@@ -56,7 +62,7 @@ const CourseCart = ({ course }) => {
           {/* <span className="text-green-600 text-sm">Earn Tk 48</span> */}
         </div>
         <div className="mt-4 flex gap-2">
-          <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-500 w-full font-bold text-md">
+          <button onClick={()=>handleAddTocart(course)} className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-500 w-full font-bold text-md">
             Add To Cart
           </button>
         </div>

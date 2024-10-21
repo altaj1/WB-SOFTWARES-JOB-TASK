@@ -3,6 +3,7 @@ import { createContext, useRef, useState } from "react";
 export const OrderContext = createContext(null)
 const OrderProvider = ({children}) => {
     const [examID, setExamID] = useState(null)
+    const [addcourses, setAddcourses] = useState([])
     const [open, setOpen] = useState(true)
     const sidebarRef = useRef(null);
     
@@ -12,7 +13,9 @@ const OrderProvider = ({children}) => {
         setExamID,
         open,
         setOpen,
-        sidebarRef
+        sidebarRef,
+        addcourses,
+        setAddcourses
     }
     return (
         <OrderContext.Provider value={info} >
