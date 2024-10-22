@@ -8,7 +8,7 @@ const Checkout = () => {
   const [genderParent, setGenderParent] = useState("");
   const [gender, setGender] = useState("");
   const [bloodGroup, setBloodGroup] = useState("");
-  const { setCheckoutData, TotalCoursePrice } = useContext(OrderContext);
+  const { setCheckoutData, TotalCoursePrice, quantity, addcourses } = useContext(OrderContext);
   const [imagePreview, setImagePreview] = useState();
   const [imageText, setImageText] = useState("Upload Image");
   const handleBloodGroupChange = (e) => {
@@ -36,11 +36,17 @@ const Checkout = () => {
       parentNumber: e.target.parentNumber.value,
       jobInfo: e.target.jobInfo.value,
       permanentAddress: e.target.permanentAddress.value,
+      mobile: e.target.mobile.value,
       dob: e.target.dob.value,
       gender: gender,
       genderParent: genderParent,
       bloodGroup: bloodGroup,
-      imagePreview:imagePreview
+      imagePreview:imagePreview,
+      TotalCoursePrice:TotalCoursePrice,
+      quantity:quantity,
+      courseName: addcourses[0].course_name,
+      orderId:  Math.floor(Math.random() * 1000)
+      
     };
     setCheckoutData({ ...formData });
     // console.log("Selected Gender:", formData);
