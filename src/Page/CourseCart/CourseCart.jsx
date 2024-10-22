@@ -1,25 +1,40 @@
 import { useContext } from "react";
 import { OrderContext } from "../../ContextAPIs/OrderProvider";
+import Swal from "sweetalert2";
 
 const CourseCart = ({ course }) => {
   const { addcourses, setAddcourses } = useContext(OrderContext);
-  // const [day, month, year, time] = course.created_at.split(/[-\s:]/);
-  // const formattedDate = `${year}-${month}-${day}T${time}:00Z`;
   const regularPrice = parseInt(course.regular_price);
   const discountPrice = parseInt(course.discount_price);
   const priceDifference = regularPrice - discountPrice;
   const discountPercentage = (priceDifference / regularPrice) * 100;
   const handleAddTocart = (product) => {
+    if (addcourses.length > 0) {
+      return Swal.fire({
+        title: "Do you want to the cart",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Save",
+        denyButtonText: `Don't save`
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setAddcourses([product]);s
+          Swal.fire("Saved!", "", "success");
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+        }
+      });
+      
+    }
     setAddcourses([product]);
   };
   return (
     <div className=" bg-white shadow-lg rounded-lg overflow-hidden">
       <div className="relative">
-        <img src={course.photo} alt="" />
+        <img src={course.photo}
+        className="bg-cover h-96 w-full"
+        alt="" />
         <div className="absolute top-0 left-0 p-2">
-          {/* <h3 className="text-white text-xl font-bold">
-            {new Date(formattedDate).toLocaleString()}
-          </h3> */}
         </div>
       </div>
       <div className="p-4">
@@ -32,13 +47,6 @@ const CourseCart = ({ course }) => {
             {course.trainer_data.name}
           </span>
         </div>
-        {/* <div className="flex gap-2 mb-4 flex-wrap">
-                          {['Photography', 'Light set up', 'Camera angle', 'Self Development'].map((tag) => (
-                              <span key={tag} className="bg-yellow-100 text-gray-700 text-xs font-semibold px-2 py-1 rounded">
-                                  {tag}
-                              </span>
-                          ))}
-                      </div> */}
         <p className="text-gray-600 text-md mb-4">
           Course Details <span className="text-blue-500">Show Details</span>
         </p>

@@ -1,14 +1,15 @@
-import { useContext, useEffect, useState } from "react";
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
 import { RiDeleteBin5Line } from "react-icons/ri";
-import OrderProvider from "../ContextAPIs/OrderProvider";
 
 
 const TableRow = ({ course, setTotalCoursePrice,setAddcourses, addcourses  }) => {
   const [quantity, setQuantity] = useState(1);
+
   const handleQuantityIng = (courseId) => {
     const updatedCourses = addcourses.map((course) => {
         if (course.id === courseId) {
-          const newQuantity = course.quantity ? course.quantity + 1 : 1;
+          const newQuantity = course.quantity ? course.quantity + 1 : 2;
           return {
             ...course,
             quantity: newQuantity,
@@ -17,8 +18,9 @@ const TableRow = ({ course, setTotalCoursePrice,setAddcourses, addcourses  }) =>
         return course;
       });
       setAddcourses(updatedCourses);
-      setQuantity(quantity - 1 )
+      setQuantity(quantity + 1 )
   };
+
   const handleQuantityDec = (courseId) => {
     const updatedCourses = addcourses.map((course) => {
         if (course.id === courseId) {
@@ -33,7 +35,10 @@ const TableRow = ({ course, setTotalCoursePrice,setAddcourses, addcourses  }) =>
       setAddcourses(updatedCourses);
       setQuantity(quantity - 1 )
   };
-
+   
+  const handleDelete = ()=>{
+    setAddcourses([])
+  }
   useEffect(() => {
     const subTotal = document.getElementsByClassName("subTotal");
     const totalPrice = Array.from(subTotal).reduce((total, element) => {
@@ -48,19 +53,18 @@ const TableRow = ({ course, setTotalCoursePrice,setAddcourses, addcourses  }) =>
       <td>
         <div className="flex items-center justify-center ">
           <div className="w-[20%] text-center flex items-center justify-center ">
-            <RiDeleteBin5Line className="text-xl hover:text-footer_color cursor-pointer" />
+            <RiDeleteBin5Line onClick={handleDelete} className="text-xl hover:text-footer_color cursor-pointer" />
           </div>
           <div className="flex flex-col text-center justify-center items-center py-2  w-[80%]">
             <div className="mask">
               <img
-                className="h-[40px] w-[70px]"
+                className="h-24 "
                 src={course.photo}
                 alt="Course"
               />
             </div>
             <p className="text-[14.4px] px-[7px] text-center flex ">
               {course.course_name}
-              <span className="hidden lg:flex ">- unit name</span>
             </p>
           </div>
         </div>
@@ -83,11 +87,6 @@ const TableRow = ({ course, setTotalCoursePrice,setAddcourses, addcourses  }) =>
           </div>
           <div className="border-y p-1">
             <p>{course.quantity|| 1}</p>
-            {/* <input
-              type="number"
-              defaultValue={quantity}
-              className="font-bold w-[30px] text-black lg:w-[60px] font_standard px-2 text-center mx-auto h-full"
-            /> */}
           </div>
           <div className="border">
             <button
@@ -101,7 +100,7 @@ const TableRow = ({ course, setTotalCoursePrice,setAddcourses, addcourses  }) =>
       </td>
       <td>
         <p className="text-[14.4px] font-bold p-[7px] text-black text-center subTotal">
-        {parseInt(course.discount_price) * course.quantity || 1}, BDT
+        {parseInt(course.discount_price) * course.quantity || course.discount_price}, BDT
         </p>
       </td>
     </tr>

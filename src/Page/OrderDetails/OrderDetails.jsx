@@ -18,71 +18,54 @@ const OrderDetails = () => {
               <span className="font-semibold">{checkoutData.orderId}</span>
             </p>
           </div>
-          <div className="w-full border flex flex-col md:flex-row md:items-start   md:mt-4 mt-3 bg-[#D2C5A2] rounded-md p-4  ">
-            <div className="md:text-base text-sm flex-1  font-semibold   md:border-r-2 md:border-black md:pr-10">
-              <p className="font-bold md:mb-4 w-full">
-                My information,Checkout page information will be here{" "}
-              </p>
-              <div className="space-y-1 w-full">
-                <div className="flex items-center justify-between">
-                  <p>Full Name : </p>
-                  <p className="text-start">{checkoutData.fullName}</p>
+          <div className="overflow-x-auto w-full">
+        <table className="table">
+          {/* head */}
+          <thead>
+            <tr>
+              
+              <th>Serial</th>
+              <th>Trainee</th>
+              <th>Payment</th>
+              <th>Status</th>
+              <th>Photo</th>
+            </tr>
+          </thead>
+          <hr />
+          <tbody>
+            {/* row 1 */}
+            <tr>
+              <th>1</th>
+              <td>
+                <div>
+                  <p>Student: {checkoutData?.name}</p>
+                  <p>Student: {checkoutData?.phone_no}</p>
+                  <p>Father: {checkoutData?.father_name}</p>
+                  <p>
+                    Father-Phone: {checkoutData?.father_phone_no}
+                  </p>
                 </div>
-                <div className="flex items-center justify-between">
-                  <p>School :</p>
-                  <p>{checkoutData.school}</p>
+              </td>
+              <td>
+                <div>
+                  <p>Course Fee: {checkoutData?.course_fee}</p>
+                  <p>Course Qty: {checkoutData?.course_qty}</p>
+                  <p>Total Fee: {checkoutData?.total_course_fee}</p>
+                  <p>
+                    Discount Fee: {checkoutData?.discount_course_fee}
+                  </p>
+                  <p>
+                    Sub Total Fee:{" "}
+                    {checkoutData?.sub_total_course_fee}
+                  </p>
                 </div>
-                <div className="flex items-center justify-between">
-                  <p>Present Address :</p>
-                  <p className="text-start">{checkoutData.presentAddress}</p>
-                </div>
-                <div className="flex items-center justify-between">
-                  <p>Permanent Address :</p>
-                  <p>{checkoutData.permanentAddress}</p>
-                </div>
-                <div className="flex items-center justify-between">
-                  <p>Order Notes :</p>
-                  <p className="text-start">{checkoutData.formNo}</p>
-                </div>
-                <div className="flex items-center justify-between">
-                  <p>Mobile :</p>
-                  <p>{checkoutData.mobile}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="md:text-base text-sm  flex-1 font-semibold  md:ml-10 mt-m_medium">
-              <p className="font-bold  md:mb-4 w-full">
-                Parent information,Checkout page information will be here{" "}
-              </p>
-              <div className="space-y-1 w-full">
-                <div className="flex items-center justify-between">
-                  <p>Full Name : </p>
-                  <p className="text-start">{checkoutData.parentName}</p>
-                </div>
-                <div className="flex items-center justify-between">
-                  <p>Gender :</p>
-                  <p>{checkoutData.gender}</p>
-                </div>
-                <div className="flex items-center justify-between">
-                  <p>Present Address :</p>
-                  <p className="text-start">{checkoutData.presentAddress}</p>
-                </div>
-                <div className="flex items-center justify-between">
-                  <p>Permanent Address :</p>
-                  <p>{checkoutData.permanentAddress}</p>
-                </div>
-                <div className="flex items-center justify-between">
-                  <p>Order Notes :</p>
-                  <p className="text-start">{checkoutData.formNo}</p>
-                </div>
-                <div className="flex items-center justify-between">
-                  <p>Mobile :</p>
-                  <p>{checkoutData.parentNumber}</p>
-                </div>
-              </div>
-            </div>
-          </div>
+              </td>
+              <td><button className="text-white p-1 font-semibold bg-[#DC3545] rounded-md">Inactive</button></td>
+              <td><img src={checkoutData?.photo} className="h-24" alt="" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
           <div className="lg:my-8 md:my-6 my-8 px-p_4px">
             <p className=" md:my-2 font-semibold">Courses:</p>
@@ -114,24 +97,24 @@ const OrderDetails = () => {
                   <td className="border text-center w-10 h-12 px-2">
                     <img
                       className=" w-full h-full object-cover mx-auto"
-                      src={checkoutData.imagePreview}
+                      src={checkoutData.photo}
                       alt=""
                     />
                   </td>
                   <td className="lg:py-6 md:py-4 py-2 text-center border">
-                    {checkoutData.courseName}
+                    {checkoutData?.courseName}
                   </td>
                   <td className="lg:py-6 md:py-4 py-2 text-center border">
-                    {checkoutData.fullName}
+                  {checkoutData?.name}
                   </td>
                   <td className="lg:py-6 md:py-4 py-2 text-center border">
-                  {checkoutData.quantity}
+                  {checkoutData.course_qty}
                   </td>
                   <td className="lg:py-6 md:py-4 py-2 text-center border">
                     1567, BDT
                   </td>
                   <td className="lg:py-6 md:py-4 py-2 text-center border">
-                  {checkoutData.TotalCoursePrice}, BDT
+                  {checkoutData.sub_total_course_fee}, BDT
                   </td>
                 </tr>
               </tbody>

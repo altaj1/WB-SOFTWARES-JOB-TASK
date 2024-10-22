@@ -7,9 +7,6 @@ import Table from "../../Table/Table";
 
 const Cart = () => {
     const {TotalCoursePrice,} = useContext(OrderContext);
-    // useEffect(()=>{
-
-    // },[TotalCoursePrice])
   return (
     <div className="m-mt_16px">
       <h1 className="text-sm text-start md:text-text_xl lg:py-0 font-bold">

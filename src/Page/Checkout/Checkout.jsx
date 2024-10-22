@@ -3,58 +3,115 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import Table from "../../Table/Table";
 import { OrderContext } from "../../ContextAPIs/OrderProvider";
+import { useMutation } from "@tanstack/react-query";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 const Checkout = () => {
-  const [genderParent, setGenderParent] = useState("");
   const [gender, setGender] = useState("");
   const [bloodGroup, setBloodGroup] = useState("");
   const { setCheckoutData, TotalCoursePrice, quantity, addcourses } = useContext(OrderContext);
   const [imagePreview, setImagePreview] = useState();
   const [imageText, setImageText] = useState("Upload Image");
+  const [imgPng, setImgPng] = useState('')
+  const axiosPublic = useAxiosPublic();
+
+
+  const { mutateAsync } = useMutation({
+    mutationFn: async formData => {
+      try {
+        const { data } = await axios.post("https://itder.com/api/course-purchase", formData)
+        console.log(data, "inside the mutate async")
+        return data
+      } catch (error) {
+        if (error.response) {
+          console.log(error.response.data, "Server Response");
+          console.log(error.response.status, "Status Code");
+          console.log(error.response.headers, "Headers");
+        } else if (error.request) {
+          console.log(error.request, "Request Made, No Response");
+        } else {
+          console.log("Error", error.message);
+        }
+        throw error; 
+      }
+    },
+    onSuccess: () => {
+      console.log('Data Saved Successfully')
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Course Purchase Successgully",
+        showConfirmButton: false,
+        timer: 1500
+      });
+    },
+  })
+
   const handleBloodGroupChange = (e) => {
     setBloodGroup(e.target.value);
-  };
-
-  const handleGenderChangeParent = (e) => {
-    setGenderParent(e.target.value);
   };
   const handleGenderChange = (e) => {
     setGender(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+   const imageUpload = async image => {
+    const formData = new FormData()
+    formData.append('image', image)
+    const { data } = await axios.post(
+      `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`,
+      formData
+    )
+    return data.data.display_url
+  }
+
+
+  const handleSubmit = async (e) => {
+   
     e.preventDefault();
     const formData = {
-      fullName: e.target.fullName.value,
-      formNo: e.target.formNo.value,
-      parentName: e.target.parentName.value,
-      school: e.target.school.value,
+      course_id: addcourses[0].id,
+      admission_date: e.target.date.value,
+      name: e.target.fullName.value,
+
+
+      photo:e.target.image.files[0],
+
+
+      father_name: e.target.parentName.value,
+      father_phone_no: e.target.parentNumber.value,
+      school_collage_name: e.target.school.value,
+      job_title: e.target.jobInfo.value,
       email: e.target.email.value,
-      presentAddress: e.target.presentAddress.value,
-      nid: e.target.nid.value,
-      guardianName: e.target.guardianName.value,
-      parentNumber: e.target.parentNumber.value,
-      jobInfo: e.target.jobInfo.value,
-      permanentAddress: e.target.permanentAddress.value,
-      mobile: e.target.mobile.value,
-      dob: e.target.dob.value,
       gender: gender,
-      genderParent: genderParent,
-      bloodGroup: bloodGroup,
-      imagePreview:imagePreview,
-      TotalCoursePrice:TotalCoursePrice,
-      quantity:quantity,
-      courseName: addcourses[0].course_name,
-      orderId:  Math.floor(Math.random() * 1000)
+      present_address: e.target.presentAddress.value,
+      permanent_address: e.target.permanentAddress.value,
+      nid_no: e.target.nid.value,
+      phone_no: e.target.parentNumber.value,
+      local_guardian_name: e.target.guardianName.value,
+      date_of_birth: e.target.date.value,
+      blood_group: bloodGroup,
+      total_course_fee:TotalCoursePrice,
+      course_fee:addcourses[0].regular_price,
+      sub_total_course_fee:TotalCoursePrice,
+      course_qty:quantity,
+      local_guardian_phone_no: e.target.mobile.value,
+      discount_course_fee:addcourses[0].discount_price,
       
     };
-    setCheckoutData({ ...formData });
-    // console.log("Selected Gender:", formData);
+    setCheckoutData({ ...formData, courseName:addcourses[0].course_name, photo:imagePreview });
+   const res = await mutateAsync(formData)
+   console.log(res, "handleSubmit function ")
+    
+
+    console.log("Selected Gender:", formData);
   };
   const handleImage = (image) => {
     setImagePreview(URL.createObjectURL(image));
     setImageText(image.name);
   };
+
   return (
     <div className="  mt-5 border mx-2">
       <div className="bg-[#6f42c1] text-white p-6 text-center mb-5">
@@ -186,7 +243,7 @@ const Checkout = () => {
                 name="gender"
                 className="w-full border border-gray-300 rounded-md p-2"
                 required
-                onChange={handleGenderChangeParent}
+                onChange={handleGenderChange}
                 value={gender}
               >
                 <option value="" disabled>
@@ -229,7 +286,7 @@ const Checkout = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div>
+            {/* <div>
               <label
                 htmlFor="nid"
                 className="block font-semibold text-base mb-2"
@@ -240,6 +297,20 @@ const Checkout = () => {
                 type="text"
                 id="nid"
                 name="nid"
+                className="w-full border border-gray-300 rounded-md p-2"
+              />
+            </div> */}
+             <div>
+              <label
+                htmlFor="guardianName"
+                className="block font-semibold text-base mb-2"
+              >
+                Local Guardian’s Name:
+              </label>
+              <input
+                type="text"
+                name="guardianName"
+                id="guardianName"
                 className="w-full border border-gray-300 rounded-md p-2"
               />
             </div>
@@ -262,29 +333,29 @@ const Checkout = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div>
               <label
-                htmlFor="guardianName"
+                htmlFor="nid"
                 className="block font-semibold text-base mb-2"
               >
-                Local Guardian’s Name:
+                NID Number:
               </label>
               <input
                 type="text"
-                name="guardianName"
-                id="guardianName"
+                id="nid"
+                name="nid"
                 className="w-full border border-gray-300 rounded-md p-2"
               />
-            </div>
+            </div> 
             <div>
               <label
-                htmlFor="dob"
+                htmlFor="date"
                 className="block font-semibold text-base mb-2"
               >
                 Date of Birth:
               </label>
               <input
                 type="date"
-                id="dob"
-                name="dob"
+                id="date"
+                name="date"
                 className="w-full border border-gray-300 rounded-md p-2"
               />
             </div>
@@ -318,31 +389,7 @@ const Checkout = () => {
                 <option value="O-">O-</option>
               </select>
             </div>
-            <div>
-              <label
-                htmlFor="gender"
-                className="block font-semibold text-base mb-2"
-              >
-                Gender:
-              </label>
-              <select
-                id="gender"
-                name="gender"
-                className="w-full border border-gray-300 rounded-md p-2"
-                required
-                onChange={handleGenderChange}
-                value={gender}
-              >
-                <option value="" disabled>
-                  Select Gender
-                </option>
-                <option value="Female">Female</option>
-                <option value="Male">Male</option>
-                <option value="Others">Other</option>
-              </select>
-            </div>
-          </div>
-          {/* img */}
+             {/* img */}
           <div className=" p-4  w-full  m-auto rounded-lg flex justify-between items-center bg-slate-200">
             <div className="file_upload px-5 py-3 relative border-4 border-dotted border-gray-300 rounded-lg">
               <div className="flex flex-col w-max mx-auto text-center">
@@ -371,8 +418,10 @@ const Checkout = () => {
               {imagePreview && <img src={imagePreview} />}
             </div>
           </div>
+          </div>
+         
         </div>
-        <div className="flex justify-center gap-5">
+        <div className="lg:flex xl:flex md:flex justify-center gap-5">
           <Table></Table>
           <div className="lg:w-[41%] bg-white border-2 ">
             <div className="px-[30px]">
