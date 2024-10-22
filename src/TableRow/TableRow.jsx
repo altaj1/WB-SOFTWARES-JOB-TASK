@@ -101,7 +101,7 @@ const TableRow = ({ course, setTotalCoursePrice,setAddcourses, addcourses  }) =>
       </td>
       <td>
         <p className="text-[14.4px] font-bold p-[7px] text-black text-center subTotal">
-          {course.discount_price * course.quantity}, BDT
+        {parseInt(course.discount_price) * course.quantity || 1}, BDT
         </p>
       </td>
     </tr>

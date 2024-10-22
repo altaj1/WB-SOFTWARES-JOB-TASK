@@ -4,11 +4,11 @@ export const OrderContext = createContext(null)
 const OrderProvider = ({children}) => {
     const [examID, setExamID] = useState(null)
     const [addcourses, setAddcourses] = useState([])
-    const [TotalCoursePrice, setTotalCoursePrice] = useState(0)
+    const [TotalCoursePrice, setTotalCoursePrice] = useState(1)
     const [quantity, setQuantity] = useState(1);
     const [open, setOpen] = useState(true)
     const sidebarRef = useRef(null);
-    
+    const [checkoutData, setCheckoutData] = useState({})
 
     const info = {
         examID,
@@ -20,7 +20,8 @@ const OrderProvider = ({children}) => {
         setAddcourses,
         TotalCoursePrice,
         setTotalCoursePrice,
-        quantity, setQuantity
+        quantity, setQuantity,
+        checkoutData, setCheckoutData
     }
     return (
         <OrderContext.Provider value={info} >

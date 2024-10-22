@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { OrderContext } from "../../ContextAPIs/OrderProvider";
 import TableRow from "../../TableRow/TableRow";
+import Table from "../../Table/Table";
 
 const Cart = () => {
     const { addcourses,TotalCoursePrice, setTotalCoursePrice, setAddcourses} = useContext(OrderContext);
@@ -17,7 +18,8 @@ const Cart = () => {
       <div className="pt-p_16px">
         <div className="lg:flex items-start gap-3">
           <div className="w-full lg:w-[58%] bg-white border-2">
-            <table className=" overflow-x-auto  w-full">
+            <Table></Table>
+            {/* <table className=" overflow-x-auto  w-full">
               <thead>
                 <tr className="border-b-4 border-gray-300">
                   <th className="text-[14.4px] w-6/12 font-bold p-[7px] text-black">
@@ -41,7 +43,7 @@ const Cart = () => {
 
                 
               </tbody>
-            </table>
+            </table> */}
           </div>
           <div className="lg:w-[41%] bg-white border-2 ">
             <div className="px-[30px]">
