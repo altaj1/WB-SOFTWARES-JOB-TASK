@@ -2,27 +2,25 @@ import { useContext } from "react";
 import { OrderContext } from "../../ContextAPIs/OrderProvider";
 
 const CourseCart = ({ course }) => {
-    const { addcourses ,setAddcourses} = useContext(OrderContext)
-  const [day, month, year, time] = course.created_at.split(/[-\s:]/);
-  const formattedDate = `${year}-${month}-${day}T${time}:00Z`;
+  const { addcourses, setAddcourses } = useContext(OrderContext);
+  // const [day, month, year, time] = course.created_at.split(/[-\s:]/);
+  // const formattedDate = `${year}-${month}-${day}T${time}:00Z`;
   const regularPrice = parseInt(course.regular_price);
   const discountPrice = parseInt(course.discount_price);
   const priceDifference = regularPrice - discountPrice;
   const discountPercentage = (priceDifference / regularPrice) * 100;
-  const handleAddTocart = (product)=>{
-    setAddcourses([...addcourses, product])
-  }
+  const handleAddTocart = (product) => {
+    setAddcourses([product]);
+  };
+  console.log(addcourses[0]?.id == course.id);
   return (
     <div className=" bg-white shadow-lg rounded-lg overflow-hidden">
       <div className="relative">
-        <img
-          src={course.photo}
-          alt=""
-        />
+        <img src={course.photo} alt="" />
         <div className="absolute top-0 left-0 p-2">
-          <h3 className="text-white text-xl font-bold">
+          {/* <h3 className="text-white text-xl font-bold">
             {new Date(formattedDate).toLocaleString()}
-          </h3>
+          </h3> */}
         </div>
       </div>
       <div className="p-4">
@@ -43,8 +41,7 @@ const CourseCart = ({ course }) => {
                           ))}
                       </div> */}
         <p className="text-gray-600 text-md mb-4">
-          Course Details{" "}
-          <span className="text-blue-500">Show Details</span>
+          Course Details <span className="text-blue-500">Show Details</span>
         </p>
         <hr />
         <div className="mt-4 flex justify-between items-center">
@@ -56,13 +53,25 @@ const CourseCart = ({ course }) => {
               {discountPercentage.toFixed(2)}%
             </span>
             <span className="text-black text-lg font-bold ml-2">
-            {course.discount_price}, BDT
+              {course.discount_price}, BDT
             </span>
           </div>
           {/* <span className="text-green-600 text-sm">Earn Tk 48</span> */}
         </div>
         <div className="mt-4 flex gap-2">
-          <button onClick={()=>handleAddTocart(course)} className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-500 w-full font-bold text-md">
+          {/* <button disabled={addcourses[0]?.id == course.id}  onClick={()=>handleAddTocart(course)} className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-500 w-full font-bold text-md">
+            Add To Cart
+          </button> */}
+          <button
+            disabled={course?.id == addcourses[0]?.id}
+            onClick={() => handleAddTocart(course)}
+            className={`bg-blue-500 text-white py-2 px-4 rounded w-full font-bold text-md 
+    ${
+      course?.id == addcourses[0]?.id
+        ? "bg-gray-400 cursor-not-allowed"
+        : "hover:bg-blue-600"
+    }`}
+          >
             Add To Cart
           </button>
         </div>

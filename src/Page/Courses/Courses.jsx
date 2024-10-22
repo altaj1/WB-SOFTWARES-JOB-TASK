@@ -10,7 +10,6 @@ const Courses = () => {
   const {
     data: courses = [],
     isLoading,
-    refetch,
   } = useQuery({
     queryKey: ["courses"],
     queryFn: async () => {
