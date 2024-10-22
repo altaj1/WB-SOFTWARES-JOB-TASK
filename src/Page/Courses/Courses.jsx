@@ -2,10 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import Loader from "../../Utils/Loader/Loader";
 import CourseCart from "../CourseCart/CourseCart";
+import { useState } from "react";
 // start date & time
 //10/21/24, 11:45pm
 
 const Courses = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(3);
+  const indexOfLast = currentPage * perPage;
+  const indexOfFirst = indexOfLast - perPage;
+  
   const axiosPublic = useAxiosPublic();
   const {
     data: courses = [],
@@ -17,17 +23,38 @@ const Courses = () => {
       return data;
     },
   });
+ 
   if (isLoading) {
     return <Loader></Loader>;
   }
-  
+  const currentCourses = courses?.courseData?.slice(indexOfFirst, indexOfLast) || [];
+  const totalPages = Math.ceil(courses?.courseData?.length / perPage);
   return (
     <div className="m-mt_16px">
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        {courses?.courseData.map((course) => (
+        {currentCourses?.map((course) => (
           <CourseCart key={course.id} course={course}/>
         ))}
       </div>
+      <div className="flex items-center justify-center mt-8">
+                <button
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage(currentPage - 1)}
+                    className="px-4 py-2 bg-blue-500 rounded hover:bg-blue-600 text-white disabled:opacity-50"
+                >
+                    Previous
+                </button>
+                <span className="mx-4 text-gray-600">
+                    Page {currentPage} of {totalPages}
+                </span>
+                <button
+                    disabled={currentPage === totalPages}
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+                >
+                    Next
+                </button>
+            </div>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { OrderContext } from '../ContextAPIs/OrderProvider';
 import TableRow from '../TableRow/TableRow';
 
 const Table = () => {
-    const { addcourses,TotalCoursePrice, setTotalCoursePrice, setAddcourses} = useContext(OrderContext);
+    const { addcourses, setTotalCoursePrice, setAddcourses} = useContext(OrderContext);
     return (
         <table className=" overflow-x-auto  w-full">
         <thead>

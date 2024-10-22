@@ -12,7 +12,6 @@ const CourseCart = ({ course }) => {
   const handleAddTocart = (product) => {
     setAddcourses([product]);
   };
-  console.log(addcourses[0]?.id == course.id);
   return (
     <div className=" bg-white shadow-lg rounded-lg overflow-hidden">
       <div className="relative">
